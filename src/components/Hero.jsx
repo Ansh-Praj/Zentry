@@ -14,14 +14,16 @@ function Hero() {
     const [isLoading, setIsLoading] = useState(true)
     const [loadedVideos, setLoadedVideos] = useState(0)
 
-    const totalVideos = 4
     const nextVdRef = useRef(null)
     const bigPlayer = useRef(null)
+    const loadedVideoSources = useRef(new Set())
+
+    const totalVideos = 4
     const upcomingVideoIndex = currentIndex % totalVideos + 1
     const getVideoSrc = (index) => `videos/hero-${index}.mp4`
 
     useEffect(()=>{
-        if(loadedVideos === totalVideos - 1){
+        if(loadedVideos >= 1){
             setIsLoading(false)
         }
     }, [loadedVideos])
@@ -77,8 +79,14 @@ function Hero() {
         })
     })
     
-    function handleVideoLoad(){
-        setLoadedVideos((prev)=>prev+1)
+    function handleVideoLoad(e){
+        const src = e.target.currentSrc;
+
+        if (!loadedVideoSources.current.has(src)) {
+            loadedVideoSources.current.add(src)
+            setLoadedVideos(prev => prev + 1)
+            console.log('Loaded unique video:', src)
+        }
     }
     
     function handleMiniVdClick(e){
@@ -92,7 +100,7 @@ function Hero() {
     <div className='relative h-screen w-full'>
 
         {isLoading && (
-            <div className='absolute flex-center z-100 h-screen w-full overflow-hidden bg-violet-50'>
+            <div className='absolute flex justify-center items-center z-100 h-screen w-full overflow-hidden bg-violet-50'>
                 <div className='three-body'>
                     <div className='three-body__dot'/>
                     <div className='three-body__dot'/>
