@@ -9,18 +9,22 @@ import Features from './components/Features'
 import Story from './components/Story'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import { useState } from 'react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 function App() {
 
-  useGSAP(()=>{
+  const [isLoading, setIsLoading] = useState(true)
+
+
+  useGSAP(() => {
     const lenis = new Lenis();
 
     lenis.on('scroll', ScrollTrigger.update);
 
     gsap.ticker.add((time) => {
-      lenis.raf(time * 1000); 
+      lenis.raf(time * 1000);
     });
 
     gsap.ticker.lagSmoothing(0);
@@ -31,14 +35,16 @@ function App() {
     <>
       <main className='min-h-screen w-full relative '>
         {/* overflow-x-hidden in contact, story, about */}
-        <Navbar />
-        <Hero />
-        <About />
-        <Features />
-        <Story />
-        <Contact />
-        <Footer />
-        <p className='text-[#000] text-center py-2'>Clone of <a className='underline' target='_blank' href="https://zentry.com/">Zentry</a></p>
+            <Navbar />
+            <Hero isLoading={isLoading} setIsLoading={setIsLoading} />
+        {isLoading ? <></> : <>
+            <About />
+            <Features />
+            <Story />
+            <Contact />
+            <Footer />
+            <p className='text-[#000] text-center py-2'>Clone of <a className='underline' target='_blank' href="https://zentry.com/">Zentry</a></p>
+        </>}
       </main>
     </>
   )

@@ -7,11 +7,10 @@ import { FaLocationArrow } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger)
 
-function Hero() {
+function Hero({isLoading, setIsLoading}) {
 
     const [currentIndex, setCurrentIndex] = useState(1)
     const [hasClicked, setHasClicked] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
     const [loadedVideos, setLoadedVideos] = useState(0)
 
     const nextVdRef = useRef(null)
@@ -85,7 +84,6 @@ function Hero() {
         if (!loadedVideoSources.current.has(src)) {
             loadedVideoSources.current.add(src)
             setLoadedVideos(prev => prev + 1)
-            console.log('Loaded unique video:', src)
         }
     }
     
@@ -100,14 +98,15 @@ function Hero() {
     <div className='relative h-screen w-full'>
 
         {isLoading && (
-            <div className='absolute flex justify-center items-center z-100 h-screen w-full overflow-hidden bg-violet-50'>
-                <div className='three-body'>
-                    <div className='three-body__dot'/>
-                    <div className='three-body__dot'/>
-                    <div className='three-body__dot'/>
-                </div>
+          <div className='absolute flex justify-center items-center z-100 h-screen w-full overflow-hidden bg-violet-50'>
+            <div className='three-body'>
+              <div className='three-body__dot' />
+              <div className='three-body__dot' />
+              <div className='three-body__dot' />
             </div>
+          </div>
         )}
+
 
         <div id='video-frame' className='relative z-10 h-screen w-full overflow-hidden rounded-lg bg-blue-75 '>
             <div>
