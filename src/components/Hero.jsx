@@ -22,7 +22,7 @@ function Hero({isLoading, setIsLoading}) {
     const getVideoSrc = (index) => `videos/hero-${index}.mp4`
 
     useEffect(()=>{
-        if(loadedVideos >= 1){
+        if(loadedVideos >= 4){
             setIsLoading(false)
         }
     }, [loadedVideos])
@@ -96,6 +96,16 @@ function Hero({isLoading, setIsLoading}) {
 
   return (
     <div className='relative h-screen w-full'>
+        <div className="hidden">
+        {[1, 2, 3, 4].map((index) => (
+            <video
+            key={index}
+            src={getVideoSrc(index)}
+            onLoadedData={handleVideoLoad}
+            />
+        ))}
+        </div>
+
 
         {isLoading && (
           <div className='absolute flex justify-center items-center z-100 h-screen w-full overflow-hidden bg-violet-50'>
